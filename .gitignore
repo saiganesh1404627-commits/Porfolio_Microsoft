@@ -1,0 +1,42 @@
+# Operating system files
+# macOS Finder metadata
+.DS_Store
+# Windows thumbnail cache
+Thumbs.db
+
+# IDE/editor directories (user settings) - do not ignore project source files
+.vscode/
+.idea/
+
+# Node dependencies and npm/yarn/pnpm logs (if you use a build tool locally)
+node_modules/
+npm-debug.log*
+yarn-error.log
+yarn-debug.log
+pnpm-debug.log
+
+# Environment files that may contain secrets or local configuration
+.env
+.env.local
+.env.*.local
+
+# Build / cache folders (local tooling)
+dist/
+build/
+.cache/
+.sass-cache/
+
+# Logs and temporary files
+logs/
+*.log
+*.tmp
+*.bak
+
+# OS-specific metadata
+Thumbs.db
+*.swp
+
+# Ignore sensitive files you might accidentally create
+secrets.json
+
+# End of .gitignore

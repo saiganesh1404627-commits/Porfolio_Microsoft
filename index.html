@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<!-- 
+  A11y Decision: Setting the correct language attribute (lang="en") is critical 
+  for screen readers to load the correct text-to-speech pronunciation profiles.
+-->
+<html lang="en">
+<head>
+  <!-- SEO & Browser Meta -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- 
+    SEO Decision: Descriptors and keywords targeted for a Computer Science student 
+    profile, highlighting AI Engineering and Python capabilities.
+  -->
+  <meta name="description" content="Professional portfolio of Malekar Sai Ganesh, Computer Science and Engineering student at CMR Engineering College. Aspiring AI Engineer and Python Analyst.">
+  <meta name="robots" content="index, follow">
+  
+  <!-- SEO Decision: Canonical URL placeholder prevents duplicate index listings on search engines -->
+  <link rel="canonical" href="https://example.com/sai-ganesh-portfolio/">
+  
+  <!-- 
+    SEO & Accessibility Decision: Open Graph metadata tags define how the website 
+    is structured when shared on social channels like LinkedIn, Slack, or Facebook.
+  -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.com/sai-ganesh-portfolio/">
+  <meta property="og:title" content="Malekar Sai Ganesh | Student Portfolio">
+  <meta property="og:description" content="Explore academic projects, technical skills, and hackathon achievements of Malekar Sai Ganesh, CSE student at CMR Engineering College.">
+  <meta property="og:image" content="https://example.com/sai-ganesh-portfolio/assets/portfolio-preview.jpg">
+
+  <!-- SEO Decision: Unique descriptive title containing core keywords -->
+  <title>Malekar Sai Ganesh | CSE Student & Aspiring AI Engineer Portfolio</title>
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 
+    A11y Decision: A skip-to-content link is placed as the very first interactive node. 
+    It allows keyboard-only and screen-reader users to bypass repetitive header navigation links 
+    and jump straight to the page's primary content. It remains visually hidden offscreen 
+    until it receives keyboard focus via the Tab key.
+  -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- 
+    Semantic Decision: The <header> tag defines the landmark banner of the document.
+  -->
+  <header class="header">
+    <div class="container">
+      
+      <!-- Logo anchor with clear navigation description -->
+      <a href="index.html" class="logo" aria-label="Malekar Sai Ganesh Portfolio Home">
+        &lt;Sai<span>Ganesh</span>/&gt;
+      </a>
+
+      <!-- 
+        Semantic & A11y Decision: The <nav> element defines a navigational landmark. 
+        Assigning aria-label="Primary Navigation" differentiates it from other nav structures 
+        (e.g., social navigation lists in the footer) for screen reader landmark indexes.
+      -->
+      <nav id="primary-navigation" aria-label="Primary Navigation">
+        <ul class="nav-menu" id="nav-menu">
+          <!-- 
+            A11y Decision: aria-current="page" programmatically informs screen reader users 
+            that they are currently browsing the Home page link.
+          -->
+          <li><a href="index.html" class="nav-link" aria-current="page">Home</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-controls">
+        <!-- 
+          A11y Decision: Interactive button contains a descriptive aria-label and title 
+          because the button elements themselves only contain graphic SVG nodes.
+        -->
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle color theme" title="Toggle color theme">
+          <!-- Sun Icon (visible in Dark Theme) -->
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <!-- Moon Icon (visible in Light Theme) -->
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- 
+          A11y Decision: Mobile menu hamburger button coordinates its state using aria-expanded.
+          This value changes dynamically via JavaScript to notify screen readers when the menu drawer opens.
+          It points to the nav-menu element using aria-controls.
+        -->
+        <button id="menu-toggle" class="menu-toggle-btn" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="12" x2="21" y2="12" class="hamburger-line"></line>
+            <line x1="3" y1="6" x2="21" y2="6" class="hamburger-line"></line>
+            <line x1="3" y1="18" x2="21" y2="18" class="hamburger-line"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Overlay background for mobile drawer (hidden visually and from screen readers by default) -->
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+
+  <!-- 
+    Semantic & A11y Decision: The <main> element wraps the primary content of the page,
+    with a unique id matching the skip-link destination. tabindex="-1" ensures it is programmatically
+    focusable, allowing keyboard focus to shift smoothly after the skip link is clicked.
+  -->
+  <main id="main-content" tabindex="-1">
+    <div class="container">
+
+      <!-- Hero Section -->
+      <section class="hero" aria-label="Hero Introduction">
+        <div class="hero-content">
+          <span class="hero-tag">B.Tech Student &bull; CSE 2nd Year</span>
+          
+          <!-- Heading 1: The primary topic identifier of the page (one per page) -->
+          <h1 class="hero-title" style="font-family: initial;">Aspiring <span style="color: var(--primary-color);">AI Engineer</span> & Python Analyst.</h1>
+          
+          <p class="hero-desc">
+            Hi, I'm <strong>Malekar Sai Ganesh</strong>. I am a Computer Science and Engineering student at CMR Engineering College.I am proficient in C Programming, Data Structures, Web Development (HTML, CSS, Bootstrap, SQL), and AI/ML basics, with a proven track record of building innovative solutions like Hasthvani—an AI-powered sign language recognition platform that won the ESCI Hackathon 2026.
+          </p>
+          
+          <!-- CTAs utilizing clear, descriptive button labels -->
+          <div class="hero-cta">
+            <a href="#projects" class="btn btn-primary" aria-label="View Malekar Sai Ganesh's academic projects">View My Projects</a>
+            <a href="contact.html" class="btn btn-secondary" aria-label="Get in touch with Malekar Sai Ganesh">Get In Touch</a>
+          </div>
+        </div>
+
+        <!-- 
+          A11y Decision: The SVG illustration is decorative background art, so it is hidden 
+          from screen readers (aria-hidden="true") to prevent vocalizing noise.
+        -->
+        <div class="hero-visual" aria-hidden="true">
+          <svg class="hero-illustration" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="grid-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--primary-color)" stop-opacity="0.2"/>
+                <stop offset="100%" stop-color="var(--accent-color)" stop-opacity="0.05"/>
+              </linearGradient>
+            </defs>
+            <rect x="20" y="20" width="460" height="460" rx="30" fill="url(#grid-grad)"/>
+            <path d="M 50,250 L 450,250 M 250,50 L 250,450" stroke="var(--border-color)" stroke-dasharray="5 5" stroke-width="1.5"/>
+            <circle cx="250" cy="250" r="130" stroke="var(--primary-color)" stroke-opacity="0.3" stroke-width="2"/>
+            <circle cx="250" cy="250" r="80" stroke="var(--accent-color)" stroke-opacity="0.4" stroke-width="1.5" stroke-dasharray="10 5"/>
+            
+            <!-- Python Logo visual vector graphic -->
+            <g transform="translate(180, 140) scale(1.8)">
+              <path d="M 20,4 C 11.2,4 12,12 12,12 L 12,18 L 20,18 L 20,20 C 20,20 20,24 28,24 C 36,24 35,16 35,16 L 35,10 C 35,10 35.8,4 28,4 L 20,4 Z" fill="var(--primary-color)" opacity="0.85"/>
+              <path d="M 20,36 C 28.8,36 28,28 28,28 L 28,22 L 20,22 L 20,20 C 20,20 20,16 12,16 C 4,16 5,24 5,24 L 5,30 C 5,30 4.2,36 12,36 L 20,36 Z" fill="var(--accent-color)" opacity="0.85"/>
+              <circle cx="16" cy="9" r="1.5" fill="var(--bg-card)"/>
+              <circle cx="24" cy="31" r="1.5" fill="var(--bg-card)"/>
+            </g>
+
+            <!-- CGPA graphic element representation -->
+            <rect x="290" y="320" width="130" height="70" rx="10" fill="var(--bg-card)" stroke="var(--border-color)" stroke-width="2" filter="drop-shadow(var(--shadow-md))"/>
+            <text x="310" y="348" fill="var(--primary-color)" font-family="var(--font-headings)" font-size="22" font-weight="bold">9.13</text>
+            <text x="310" y="370" fill="var(--text-muted)" font-family="sans-serif" font-size="12">B.Tech CGPA</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- 
+        Semantic & A11y Decision: Heading level 2 sections outline the document outline. 
+        Each section has an aria-labelledby link that references the section heading's id, 
+        giving screen reader landmark indices logical visual titles.
+      -->
+
+      <!-- Projects Section -->
+      <section id="projects" class="section-projects" aria-labelledby="projects-heading">
+        <div class="section-title-wrap">
+          <h2 id="projects-heading">Academic Projects</h2>
+          <p>Key models and software applications developed during my CSE coursework.</p>
+        </div>
+
+        <div class="grid-projects">
+          
+          <!-- 
+            Semantic & A11y Decision: Individual projects are structured as <article> tags, 
+            which indicates independent, self-contained syndicatable components.
+          -->
+          <article class="project-card">
+            <!-- 
+              Semantic & A11y Decision: <figure> holds graphics, and <figcaption> contains 
+              the corresponding hidden descriptive visual fallback information.
+            -->
+            <figure class="project-figure">
+              <!-- AI Hand skeletal tracking illustration -->
+              <svg viewBox="0 0 350 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="100%" height="100%">
+                <rect width="350" height="220" fill="var(--bg-card)"/>
+                <rect x="20" y="20" width="310" height="180" rx="8" fill="rgba(var(--primary-rgb), 0.03)" stroke="var(--border-color)" stroke-width="1"/>
+                
+                <g stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round">
+                  <line x1="170" y1="180" x2="150" y2="130"/>
+                  <line x1="170" y1="180" x2="190" y2="135"/>
+                  <line x1="150" y1="130" x2="110" y2="125"/>
+                  <line x1="110" y1="125" x2="85" y2="135"/>
+                  <line x1="150" y1="130" x2="135" y2="90"/>
+                  <line x1="135" y1="90" x2="125" y2="70"/>
+                  <line x1="165" y1="128" x2="165" y2="80"/>
+                  <line x1="165" y1="80" x2="165" y2="55"/>
+                  <line x1="180" y1="130" x2="195" y2="85"/>
+                  <line x1="195" y1="85" x2="205" y2="65"/>
+                  <line x1="190" y1="135" x2="215" y2="105"/>
+                  <line x1="215" y1="105" x2="230" y2="95"/>
+                </g>
+
+                <g fill="var(--accent-color)">
+                  <circle cx="170" cy="180" r="4"/><circle cx="150" cy="130" r="4"/><circle cx="190" cy="135" r="4"/>
+                  <circle cx="110" cy="125" r="4"/><circle cx="85" cy="135" r="4"/><circle cx="135" cy="90" r="4"/>
+                  <circle cx="125" cy="70" r="4"/><circle cx="165" cy="128" r="4"/><circle cx="165" cy="80" r="4"/>
+                  <circle cx="165" cy="55" r="4"/><circle cx="180" cy="130" r="4"/><circle cx="195" cy="85" r="4"/>
+                  <circle cx="205" cy="65" r="4"/><circle cx="215" cy="105" r="4"/><circle cx="230" cy="95" r="4"/>
+                </g>
+
+                <rect x="235" y="40" width="80" height="35" rx="6" fill="var(--bg-color)" stroke="var(--border-color)"/>
+                <text x="250" y="62" fill="var(--text-color)" font-family="sans-serif" font-weight="bold" font-size="12">Gesture: A</text>
+              </svg>
+              <figcaption class="sr-only">Sign language tracker mockup displaying joint nodes on a hand model overlay translating gesture frames into letters.</figcaption>
+            </figure>
+            
+            <div class="project-body">
+              <ul class="project-tags">
+                <li class="project-tag">Python</li>
+                <li class="project-tag">AI/Machine Learning</li>
+                <li class="project-tag">Image Recognition</li>
+              </ul>
+              
+              <!-- Heading 3: Correct hierarchical nesting under Heading 2 -->
+              <h3 class="project-title">
+                <a href="#">AI-based Sign Language Recognition</a>
+              </h3>
+              
+              <p class="project-desc">
+                Developed an AI recognition model designed to process sign language hand shapes and translate physical gestures directly into alphabetical letters and readable textual meaning.
+              </p>
+              
+              <!-- 
+                A11y Decision: Links contain descriptive aria-labels so screen reader users 
+                know exactly which repository is targeted, rather than just hearing "GitHub Project".
+              -->
+              <div class="project-links">
+                <a href="#" class="project-link-btn" aria-label="View Sign Language Recognition repository on GitHub">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                  GitHub Project
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2 (Academic Placeholder) -->
+          <article class="project-card">
+            <figure class="project-figure">
+              <svg viewBox="0 0 350 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="100%" height="100%">
+                <rect width="350" height="220" fill="var(--bg-card)"/>
+                <rect x="20" y="20" width="310" height="180" rx="8" fill="rgba(var(--primary-rgb), 0.03)" stroke="var(--border-color)" stroke-width="1"/>
+                <path d="M30 60 L 320 60" stroke="var(--border-color)" stroke-width="1"/>
+                <rect x="40" y="80" width="110" height="90" rx="4" fill="var(--bg-color)" stroke="var(--border-color)"/>
+                <text x="50" y="98" fill="var(--primary-color)" font-family="sans-serif" font-weight="bold" font-size="10">TABLE: USERS</text>
+                <line x1="50" y1="108" x2="140" y2="108" stroke="var(--border-color)"/>
+                <rect x="50" y="118" width="80" height="6" rx="1.5" fill="var(--text-muted)" opacity="0.6"/>
+                <rect x="50" y="130" width="60" height="6" rx="1.5" fill="var(--text-muted)" opacity="0.6"/>
+                <rect x="190" y="80" width="110" height="90" rx="4" fill="var(--bg-color)" stroke="var(--border-color)"/>
+                <text x="200" y="98" fill="var(--accent-color)" font-family="sans-serif" font-weight="bold" font-size="10">TABLE: LOGS</text>
+                <line x1="200" y1="108" x2="290" y2="108" stroke="var(--border-color)"/>
+              </svg>
+              <figcaption class="sr-only">Relational database mockup representing connected schemas, keys, and values.</figcaption>
+            </figure>
+            
+            <div class="project-body">
+              <ul class="project-tags">
+                <li class="project-tag">SQL</li>
+                <li class="project-tag">Java</li>
+                <li class="project-tag">Database</li>
+              </ul>
+              <h3 class="project-title">
+                <a href="#">Academic Database Management System</a>
+              </h3>
+              <p class="project-desc">
+                [Academic Project Placeholder] - A relational schema structure built using SQL querying systems and Java connectivity APIs to manage transaction records and system logs.
+              </p>
+              <div class="project-links">
+                <span class="project-link-btn" style="color: var(--text-muted);">Academic Template</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3 (Academic Placeholder) -->
+          <article class="project-card">
+            <figure class="project-figure">
+              <svg viewBox="0 0 350 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="100%" height="100%">
+                <rect width="350" height="220" fill="var(--bg-card)"/>
+                <rect x="20" y="20" width="310" height="180" rx="8" fill="rgba(var(--primary-rgb), 0.03)" stroke="var(--border-color)" stroke-width="1"/>
+                <path d="M30 60 L 320 60" stroke="var(--border-color)" stroke-width="1"/>
+                <circle cx="60" cy="115" r="22" fill="none" stroke="var(--primary-color)" stroke-width="3"/>
+                <rect x="100" y="105" width="150" height="8" rx="2" fill="var(--text-color)"/>
+              </svg>
+              <figcaption class="sr-only">Web layout preview card containing logo frames, heading blocks, and textual layouts.</figcaption>
+            </figure>
+            
+            <div class="project-body">
+              <ul class="project-tags">
+                <li class="project-tag">HTML5</li>
+                <li class="project-tag">CSS3</li>
+                <li class="project-tag">Responsive</li>
+              </ul>
+              <h3 class="project-title">
+                <a href="#">Responsive Web Development Designs</a>
+              </h3>
+              <p class="project-desc">
+                [Academic Project Placeholder] - Collection of standards-compliant responsive layout blueprints demonstrating clean semantic configurations, flex grids, and mobile-friendly grids.
+              </p>
+              <div class="project-links">
+                <span class="project-link-btn" style="color: var(--text-muted);">Academic Template</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Technical Skills Section -->
+      <section id="skills" class="section-skills" aria-labelledby="skills-heading">
+        <div class="section-title-wrap" style="margin-top: var(--space-xl);">
+          <h2 id="skills-heading">Technical Skills</h2>
+          <p>Programming languages and technologies applied throughout my CSE coursework and engineering labs.</p>
+        </div>
+
+        <div class="skills-grid">
+          <!-- Skills block 1 -->
+          <div class="skill-category">
+            <h3 class="skill-category-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              Languages
+            </h3>
+            <!-- Semantic unordered list indicating structured skill elements -->
+            <ul class="skill-list">
+              <li class="skill-item">C Programming</li>
+              <li class="skill-item">Java Programming</li>
+              <li class="skill-item">Python Programming</li>
+            </ul>
+          </div>
+
+          <!-- Skills block 2 -->
+          <div class="skill-category">
+            <h3 class="skill-category-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              Data & Web Core
+            </h3>
+            <ul class="skill-list">
+              <li class="skill-item">SQL Databases</li>
+              <li class="skill-item">HTML5 Semantic Structure</li>
+              <li class="skill-item">CSS3 Styling & Layouts</li>
+            </ul>
+          </div>
+
+          <!-- Skills block 3 -->
+          <div class="skill-category">
+            <h3 class="skill-category-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>
+              Development Target
+            </h3>
+            <ul class="skill-list">
+              <li class="skill-item">AI Engineering & Models</li>
+              <li class="skill-item">Python Analysis Automation</li>
+              <li class="skill-item">Accessible Web Standards</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 
+        Achievements Section
+        Semantic Decision: Added achievements container using Heading level 2.
+      -->
+      <section id="achievements" class="section-achievements" aria-labelledby="achievements-heading">
+        <div class="section-title-wrap" style="margin-top: var(--space-xl);">
+          <h2 id="achievements-heading">Achievements & Hackathons</h2>
+          <p>Recognitions and competition milestones secured during my academic journey.</p>
+        </div>
+
+        <div style="margin-top: var(--space-md);">
+          <!-- 
+            Semantic & A11y Decision: Individual achievements are formatted as <article> tags 
+            to stand alone as independent announcements.
+          -->
+          <article class="skill-category" style="max-width: 800px; padding: var(--space-md); border-left: 5px solid var(--accent-color);">
+            <div style="display: flex; gap: 1rem; align-items: flex-start; flex-wrap: wrap;">
+              <!-- Trophy Icon visual -->
+              <div class="contact-icon-wrapper" style="background-color: rgba(13, 148, 136, 0.08); color: var(--accent-color);" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"></path><path d="M12 2a6 6 0 0 1 6 6v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V8a6 6 0 0 1 6-6z"></path></svg>
+              </div>
+              <div style="flex: 1; min-width: 250px;">
+                <span class="hero-tag" style="color: var(--accent-color);">State-Level Hackathon</span>
+                <h3 style="font-size: 1.25rem; margin-top: 0.2rem; margin-bottom: 0.4rem;">3rd Prize - ESCI Hackathon</h3>
+                <p style="font-size: 0.95rem; line-height: 1.5; margin-bottom: 0;">
+                  Participated as part of a collaborative student engineering team in Hyderabad and secured the 3rd prize in a state-level hackathon organized by the Engineering Staff College of India (ESCI).
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- 
+    Semantic Decision: The <footer> landmark bounds supplementary footer elements.
+  -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-copy">&copy; 2026 Malekar Sai Ganesh. Built with semantic HTML5 and WCAG compliance guidelines.</p>
+      
+      <!-- 
+        A11y Decision: Unordered lists preserve structures for screen reader link parsing.
+        aria-label="Social Media Connections" describes the list purpose.
+      -->
+      <ul class="footer-socials" aria-label="Social Media Connections">
+        <li>
+          <a href="#" class="social-link" title="LinkedIn Profile (Placeholder)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            <span class="sr-only">LinkedIn (Placeholder)</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="social-link" title="GitHub Repositories (Placeholder)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            <span class="sr-only">GitHub (Placeholder)</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Script tags -->
+  <script src="js/script.js"></script>
+</body>
+</html>

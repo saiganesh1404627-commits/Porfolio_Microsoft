@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Apply target startup theme
   const activeTheme = savedTheme || defaultTheme;
   document.documentElement.setAttribute('data-theme', activeTheme);
+  updateThemeToggle(activeTheme);
 
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
@@ -30,10 +31,21 @@ document.addEventListener('DOMContentLoaded', () => {
       
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
+      updateThemeToggle(newTheme);
       
       // Update screen-readers of theme transition
       announceThemeChange(newTheme);
     });
+  }
+
+  function updateThemeToggle(theme) {
+    if (!themeToggle) return;
+
+    const isDark = theme === 'dark';
+    const nextTheme = isDark ? 'light' : 'dark';
+    themeToggle.setAttribute('aria-pressed', String(isDark));
+    themeToggle.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
+    themeToggle.setAttribute('title', `Switch to ${nextTheme} theme`);
   }
 
   // A11y Decision: Create a dynamic aria-live region to announce theme updates.
@@ -65,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lastLink = focusableLinks[focusableLinks.length - 1];
 
     function toggleMenu(forceClose) {
-      const isOpen = forceClose !== undefined ? !forceClose : menuToggle.getAttribute('aria-expanded') === 'true';
+      const isOpen = forceClose !== undefined ? forceClose : menuToggle.getAttribute('aria-expanded') === 'true';
       
       if (isOpen) {
         // Close the navigation drawer

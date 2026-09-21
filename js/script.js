@@ -1,245 +1,211 @@
-/**
- * Malekar Sai Ganesh - Web Development Portfolio UI Scripts
- * 
- * Vanilla JS logic implementing accessible interactions:
- * 1. Dark/Light Theme Switching with persistent localStorage and screen reader alerts.
- * 2. Mobile Nav Drawer Toggle with focus trapping, Escape close, and active state management.
- * 3. Progressive HTML5 Form Validation highlighting and focusing invalid nodes.
- */
-
 document.addEventListener('DOMContentLoaded', () => {
-  
-  // ----------------------------------------------------
-  // 1. DUAL THEME TOGGLE & PERSISTENCE
-  // ----------------------------------------------------
-  const themeToggle = document.getElementById('theme-toggle');
-  const savedTheme = localStorage.getItem('theme');
+  const body = document.body;
+  const root = document.documentElement;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('img:not([loading])').forEach(image => { image.loading = 'lazy'; image.decoding = 'async'; });
+  const loader = document.createElement('div');
+  loader.className = 'page-loader';
+  loader.setAttribute('aria-hidden', 'true');
+  loader.innerHTML = '<span class="loader-mark">Loading portfolio</span>';
+  body.prepend(loader);
+  body.classList.add('is-loading');
+  window.addEventListener('load', () => window.setTimeout(() => {
+    loader.classList.add('is-hidden');
+    body.classList.remove('is-loading');
+  }, reducedMotion ? 0 : 260), { once: true });
 
-  // A11y Decision: Check system preferences (prefers-color-scheme) if no override is saved.
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const defaultTheme = prefersDark ? 'dark' : 'light';
-
-  // Apply target startup theme
-  const activeTheme = savedTheme || defaultTheme;
-  document.documentElement.setAttribute('data-theme', activeTheme);
-  updateThemeToggle(activeTheme);
-
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const theme = document.documentElement.getAttribute('data-theme');
-      const newTheme = theme === 'dark' ? 'light' : 'dark';
-      
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      updateThemeToggle(newTheme);
-      
-      // Update screen-readers of theme transition
-      announceThemeChange(newTheme);
-    });
-  }
-
-  function updateThemeToggle(theme) {
-    if (!themeToggle) return;
-
-    const isDark = theme === 'dark';
-    const nextTheme = isDark ? 'light' : 'dark';
-    themeToggle.setAttribute('aria-pressed', String(isDark));
-    themeToggle.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
-    themeToggle.setAttribute('title', `Switch to ${nextTheme} theme`);
-  }
-
-  // A11y Decision: Create a dynamic aria-live region to announce theme updates.
-  function announceThemeChange(theme) {
-    let announcer = document.getElementById('theme-announcer');
-    if (!announcer) {
-      announcer = document.createElement('div');
-      announcer.id = 'theme-announcer';
-      announcer.className = 'sr-only';
-      announcer.setAttribute('role', 'status');
-      announcer.setAttribute('aria-live', 'polite');
-      document.body.appendChild(announcer);
-    }
-    announcer.textContent = `Theme changed to ${theme} mode.`;
-  }
-
-
-  // ----------------------------------------------------
-  // 2. MOBILE NAVIGATION DRAWER & FOCUS MANAGEMENT
-  // ----------------------------------------------------
   const menuToggle = document.getElementById('menu-toggle');
   const navMenu = document.getElementById('nav-menu');
   const navOverlay = document.getElementById('nav-overlay');
-  
-  if (menuToggle && navMenu && navOverlay) {
-    // Collect all links inside the mobile drawer for focus trapping
-    const focusableLinks = navMenu.querySelectorAll('a');
-    const firstLink = focusableLinks[0];
-    const lastLink = focusableLinks[focusableLinks.length - 1];
-
-    function toggleMenu(forceClose) {
-      const isOpen = forceClose !== undefined ? forceClose : menuToggle.getAttribute('aria-expanded') === 'true';
-      
-      if (isOpen) {
-        // Close the navigation drawer
-        menuToggle.setAttribute('aria-expanded', 'false');
-        navMenu.classList.remove('open');
-        navOverlay.classList.remove('open');
-        navOverlay.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        
-        // A11y Decision: Restore keyboard focus back to the toggle button
-        menuToggle.focus();
-      } else {
-        // Open the navigation drawer
-        menuToggle.setAttribute('aria-expanded', 'true');
-        navMenu.classList.add('open');
-        navOverlay.classList.add('open');
-        navOverlay.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        
-        // A11y Decision: Focus first active menu link immediately
-        setTimeout(() => firstLink.focus(), 100);
-      }
+  const navLinks = navMenu ? [...navMenu.querySelectorAll('a')] : [];
+  const closeMenu = () => {
+    if (!menuToggle || !navMenu || !navOverlay) return;
+    menuToggle.setAttribute('aria-expanded', 'false');
+    navMenu.classList.remove('open');
+    navOverlay.classList.remove('open');
+    navOverlay.setAttribute('aria-hidden', 'true');
+    body.style.overflow = '';
+  };
+  const openMenu = () => {
+    if (!menuToggle || !navMenu || !navOverlay) return;
+    menuToggle.setAttribute('aria-expanded', 'true');
+    navMenu.classList.add('open');
+    navOverlay.classList.add('open');
+    navOverlay.setAttribute('aria-hidden', 'false');
+    body.style.overflow = 'hidden';
+    navLinks[0]?.focus();
+  };
+  menuToggle?.addEventListener('click', () => menuToggle.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu());
+  navOverlay?.addEventListener('click', closeMenu);
+  navLinks.forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeMenu();
+    if (event.key === 'Tab' && menuToggle?.getAttribute('aria-expanded') === 'true' && navLinks.length) {
+      const first = navLinks[0];
+      const last = navLinks[navLinks.length - 1];
+      if (event.shiftKey && document.activeElement === first) { last.focus(); event.preventDefault(); }
+      if (!event.shiftKey && document.activeElement === last) { first.focus(); event.preventDefault(); }
     }
+  });
 
-    menuToggle.addEventListener('click', () => toggleMenu());
-    navOverlay.addEventListener('click', () => toggleMenu(true));
+  const transition = document.createElement('div');
+  transition.className = 'page-transition';
+  transition.setAttribute('aria-hidden', 'true');
+  body.append(transition);
+  document.querySelectorAll('a[href$=".html"]').forEach(link => link.addEventListener('click', event => {
+    const target = new URL(link.href, window.location.href);
+    if (target.origin !== window.location.origin || target.pathname === window.location.pathname || reducedMotion) return;
+    event.preventDefault();
+    transition.classList.add('is-leaving');
+    window.setTimeout(() => { window.location.href = target.href; }, 260);
+  }));
 
-    // Close menu when links are activated (helps in single-page navigation fragments)
-    focusableLinks.forEach(link => {
-      link.addEventListener('click', () => toggleMenu(true));
-    });
+  const revealItems = document.querySelectorAll('main section, .project-card, .skill-category, .timeline-item, .experience-item, .contact-info-item, .contact-form-container, .credential-card');
+  revealItems.forEach((item, index) => { item.classList.add('reveal'); item.style.transitionDelay = `${Math.min(index * 35, 240)}ms`; });
+  const revealObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => entries.forEach(entry => {
+    if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); }
+  }), { threshold: .12 }) : null;
+  revealItems.forEach(item => revealObserver ? revealObserver.observe(item) : item.classList.add('is-visible'));
 
-    // Keyboard navigation focus trap inside mobile drawer
-    document.addEventListener('keydown', (e) => {
-      const isDrawerActive = menuToggle.getAttribute('aria-expanded') === 'true';
-      if (!isDrawerActive) return;
+  const progress = document.createElement('div');
+  progress.className = 'scroll-progress';
+  progress.setAttribute('aria-hidden', 'true');
+  body.append(progress);
+  const updateProgress = () => {
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = `${maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0}%`;
+  };
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
 
-      // Close drawer if user hits Escape key
-      if (e.key === 'Escape') {
-        toggleMenu(true);
-        return;
-      }
+  const scrollTop = document.getElementById('scroll-top');
+  const updateScrollTop = () => scrollTop?.classList.toggle('is-visible', window.scrollY > window.innerHeight * .7);
+  window.addEventListener('scroll', updateScrollTop, { passive: true });
+  updateScrollTop();
+  scrollTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' }));
 
-      // Trap Tab key navigation index limits
-      if (e.key === 'Tab') {
-        if (e.shiftKey) { // Shift + Tab (Backward navigation)
-          if (document.activeElement === firstLink) {
-            lastLink.focus();
-            e.preventDefault();
-          }
-        } else { // Tab (Forward navigation)
-          if (document.activeElement === lastLink) {
-            firstLink.focus();
-            e.preventDefault();
-          }
-        }
-      }
-    });
+  const typingRole = document.getElementById('typing-role');
+  if (typingRole) {
+    const roles = ['AI', 'Python', 'Machine Learning'];
+    let roleIndex = 0;
+    let characterIndex = roles[0].length;
+    let deleting = true;
+    const type = () => {
+      if (reducedMotion) return;
+      const role = roles[roleIndex];
+      if (deleting) characterIndex -= 1;
+      else characterIndex += 1;
+      typingRole.textContent = role.slice(0, characterIndex);
+      if (characterIndex === 0) { deleting = false; roleIndex = (roleIndex + 1) % roles.length; }
+      if (characterIndex === roles[roleIndex].length) deleting = true;
+      window.setTimeout(type, deleting ? 65 : 105);
+    };
+    window.setTimeout(type, 1800);
   }
 
-
-  // ----------------------------------------------------
-  // 3. ACCESSIBLE FORM VALIDATION (PROGRESSIVE ENHANCEMENT)
-  // ----------------------------------------------------
-  const contactForm = document.getElementById('contact-form');
-  
-  if (contactForm) {
-    const feedbackBanner = document.getElementById('form-feedback');
-    
-    // Constraints match HTML5 markup (required, minlength, type="email")
-    const fields = [
-      { id: 'name', group: 'group-name', error: 'name-error', validate: val => val.trim().length >= 2 },
-      { id: 'email', group: 'group-email', error: 'email-error', validate: val => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim()) },
-      { id: 'subject', group: 'group-subject', error: 'subject-error', validate: val => val.trim().length >= 3 },
-      { id: 'message', group: 'group-message', error: 'message-error', validate: val => val.trim().length >= 10 }
+  const projectGrid = document.getElementById('project-grid');
+  if (projectGrid) {
+    projectGrid.classList.add('is-skeleton');
+    const projects = [
+      { title: 'Hasthvani – AI Powered Sign Language Recognition Platform', category: 'ai', tags: [], description: 'Hasthvani – AI Powered Sign Language Recognition Platform.', details: 'Project: Hasthvani – AI Powered Sign Language Recognition Platform.' },
+      { title: 'Weather Detector Application', category: 'data', tags: [], description: 'Weather Detector Application.', details: 'Project: Weather Detector Application.' },
+      { title: 'E-Commerce Web Platform', category: 'web', tags: [], description: 'E-Commerce Web Platform.', details: 'Project: E-Commerce Web Platform.' }
     ];
+    let activeFilter = 'all';
+    const projectSearch = document.getElementById('project-search');
+    const renderProjects = () => {
+      const query = projectSearch?.value.trim().toLowerCase() || '';
+      const visibleProjects = projects.filter(project => (activeFilter === 'all' || project.category === activeFilter) && `${project.title} ${project.tags.join(' ')} ${project.description}`.toLowerCase().includes(query));
+      projectGrid.innerHTML = visibleProjects.length ? visibleProjects.map((project, index) => `<article class="project-card ${index === 0 && activeFilter === 'all' && !query ? 'featured-project' : ''} reveal is-visible" data-category="${project.category}" style="transition-delay:${index * 45}ms"><div class="project-body">${index === 0 && activeFilter === 'all' && !query ? '<span class="featured-label">Featured project</span>' : ''}<span class="project-index">0${index + 1}</span><ul class="project-tags">${project.tags.map(tag => `<li class="project-tag">${tag}</li>`).join('')}</ul><h3 class="project-title">${project.title}</h3><p class="project-desc">${project.description}</p><button class="project-expand" type="button" aria-expanded="false">View details</button><div class="project-details">${project.details}</div></div></article>`).join('') : '<p class="empty-state">No projects match that search.</p>';
+      projectGrid.classList.remove('is-skeleton');
+      projectGrid.setAttribute('aria-busy', 'false');
+      projectGrid.querySelectorAll('.project-expand').forEach(button => button.addEventListener('click', () => {
+        const card = button.closest('.project-card');
+        const expanded = card.classList.toggle('is-expanded');
+        button.setAttribute('aria-expanded', String(expanded));
+        button.textContent = expanded ? 'Hide details' : 'View details';
+      }));
+    };
+    document.querySelectorAll('[data-project-filter]').forEach(button => button.addEventListener('click', () => {
+      activeFilter = button.dataset.projectFilter;
+      document.querySelectorAll('[data-project-filter]').forEach(filter => { filter.classList.toggle('is-active', filter === button); filter.setAttribute('aria-pressed', String(filter === button)); });
+      renderProjects();
+    }));
+    projectSearch?.addEventListener('input', renderProjects);
+    renderProjects();
+  }
 
-    // Real-time input checking: Validate field as soon as it is corrected or blurred
-    fields.forEach(field => {
-      const input = document.getElementById(field.id);
-      if (input) {
-        input.addEventListener('input', () => {
-          if (input.getAttribute('aria-invalid') === 'true') {
-            validateField(field);
-          }
-        });
-        
-        input.addEventListener('blur', () => {
-          validateField(field);
-        });
-      }
-    });
+  const skillSearch = document.getElementById('skill-search');
+  skillSearch?.addEventListener('input', () => {
+    const query = skillSearch.value.trim().toLowerCase();
+    document.querySelectorAll('.skill-category').forEach(category => category.classList.toggle('is-filtered', query && !category.textContent.toLowerCase().includes(query)));
+  });
+  document.querySelectorAll('.skill-item').forEach(item => {
+    const level = item.dataset.level || (65 + (item.textContent.length % 30));
+    item.insertAdjacentHTML('beforeend', `<span class="skill-meter" aria-hidden="true"><span style="--skill-level:${level}%"></span></span>`);
+  });
 
-    // Validate a single field's content and update its screen-reader status attributes
-    function validateField(field) {
-      const input = document.getElementById(field.id);
-      const group = document.getElementById(field.group);
-      const isValid = field.validate(input.value);
+  document.querySelectorAll('.stat-value').forEach(counter => {
+    const target = Number(counter.dataset.counter);
+    const decimals = Number(counter.dataset.decimals || 0);
+    const render = value => { counter.textContent = value.toFixed(decimals); };
+    if (reducedMotion) { render(target); return; }
+    let start = 0;
+    const duration = 1100;
+    const started = performance.now();
+    const tick = now => {
+      start = Math.min((now - started) / duration, 1);
+      render(target * (1 - Math.pow(1 - start, 3)));
+      if (start < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
 
-      if (isValid) {
-        group.classList.remove('has-error');
-        input.setAttribute('aria-invalid', 'false');
-      } else {
-        group.classList.add('has-error');
-        input.setAttribute('aria-invalid', 'true');
-      }
-      return isValid;
-    }
+  document.querySelectorAll('.credential-card').forEach(card => {
+    const toggle = card.querySelector('.credential-toggle');
+    const setExpanded = expanded => { card.classList.toggle('is-expanded', expanded); toggle?.setAttribute('aria-expanded', String(expanded)); if (toggle) toggle.textContent = expanded ? 'Hide details' : 'View details'; };
+    toggle?.addEventListener('click', event => { event.stopPropagation(); setExpanded(!card.classList.contains('is-expanded')); });
+    card.addEventListener('click', () => setExpanded(!card.classList.contains('is-expanded')));
+    card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setExpanded(!card.classList.contains('is-expanded')); } });
+  });
 
-    contactForm.addEventListener('submit', (e) => {
-      let firstInvalidElement = null;
-      let errorCount = 0;
-      
-      // Validate all form fields on submission
-      fields.forEach(field => {
-        const isValid = validateField(field);
-        if (!isValid) {
-          errorCount++;
-          if (!firstInvalidElement) {
-            firstInvalidElement = document.getElementById(field.id);
-          }
-        }
-      });
+  document.querySelectorAll('.achievement-toggle').forEach(toggle => toggle.addEventListener('click', () => {
+    const card = toggle.closest('.hackathon-card');
+    const expanded = card.classList.toggle('is-expanded');
+    toggle.setAttribute('aria-expanded', String(expanded));
+    toggle.textContent = expanded ? 'Hide achievement details' : 'View achievement details';
+  }));
 
-      // Clear previous banner states
-      feedbackBanner.className = 'form-feedback';
-      feedbackBanner.textContent = '';
+  document.querySelectorAll('[data-resume-download]').forEach(link => link.addEventListener('click', () => {
+    const eventName = 'resume_download';
+    if (typeof window.gtag === 'function') window.gtag('event', eventName, { file_name: link.getAttribute('download') || link.getAttribute('href') });
+    window.dispatchEvent(new CustomEvent(eventName, { detail: { href: link.href } }));
+  }));
 
-      if (errorCount > 0) {
-        // A11y Decision: Prevent default submit only when form contains errors.
-        e.preventDefault();
-
-        // Announce count using the role="alert" feedback banner
-        feedbackBanner.classList.add('error');
-        feedbackBanner.textContent = `The form contains ${errorCount} error${errorCount > 1 ? 's' : ''}. Please review the highlighted fields and try again.`;
-        
-        // A11y Decision: Focus the first invalid element to assist keyboard/screen-readers
-        if (firstInvalidElement) {
-          firstInvalidElement.focus();
-        }
-      } else {
-        // Success case. If sending to a real server, we allow the request to submit naturally.
-        // For static client-side demonstrative submissions:
-        e.preventDefault();
-        
-        feedbackBanner.classList.add('success');
-        const nameVal = document.getElementById('name').value.trim();
-        feedbackBanner.textContent = `Thank you, ${nameVal}! Your message has been sent successfully.`;
-        
-        // Reset inputs and clear invalid states
-        contactForm.reset();
-        fields.forEach(field => {
-          const input = document.getElementById(field.id);
-          const group = document.getElementById(field.group);
-          input.removeAttribute('aria-invalid');
-          group.classList.remove('has-error');
-        });
-
-        // Focus feedback banner for instant screen-reader vocalization
-        feedbackBanner.setAttribute('tabindex', '-1');
-        feedbackBanner.focus();
-      }
+  if (window.matchMedia('(pointer: fine)').matches && !reducedMotion) {
+    const cursor = document.createElement('span');
+    cursor.className = 'cursor-dot';
+    cursor.setAttribute('aria-hidden', 'true');
+    body.append(cursor);
+    window.addEventListener('pointermove', event => { cursor.style.left = `${event.clientX}px`; cursor.style.top = `${event.clientY}px`; });
+    document.querySelectorAll('a, button, input, textarea, select, .credential-card').forEach(element => {
+      element.addEventListener('pointerenter', () => cursor.classList.add('is-hovering'));
+      element.addEventListener('pointerleave', () => cursor.classList.remove('is-hovering'));
     });
   }
+
+  // Theme-ready architecture: a future theme can set data-theme without changing components.
+  root.dataset.theme = localStorage.getItem('portfolio-theme') || 'dark';
+  const contactForm = document.getElementById('contact-form');
+  if (!contactForm) return;
+  const feedback = document.getElementById('form-feedback');
+  const fields = [
+    { id: 'name', group: 'group-name', validate: value => value.trim().length >= 2 },
+    { id: 'email', group: 'group-email', validate: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()) },
+    { id: 'subject', group: 'group-subject', validate: value => value.trim().length >= 3 },
+    { id: 'message', group: 'group-message', validate: value => value.trim().length >= 10 }
+  ];
+  const validate = field => { const input = document.getElementById(field.id); const group = document.getElementById(field.group); const valid = field.validate(input.value); group.classList.toggle('has-error', !valid); input.setAttribute('aria-invalid', String(!valid)); return valid; };
+  fields.forEach(field => { const input = document.getElementById(field.id); input?.addEventListener('blur', () => validate(field)); input?.addEventListener('input', () => input.getAttribute('aria-invalid') === 'true' && validate(field)); });
+  contactForm.addEventListener('submit', event => { event.preventDefault(); const invalid = fields.filter(field => !validate(field)); feedback.className = 'form-feedback'; if (invalid.length) { feedback.classList.add('error'); feedback.textContent = `The form contains ${invalid.length} error${invalid.length === 1 ? '' : 's'}. Please review the highlighted fields.`; document.getElementById(invalid[0].id)?.focus(); return; } feedback.classList.add('success'); feedback.textContent = `Thank you, ${document.getElementById('name').value.trim()}! Your message has been sent successfully.`; contactForm.reset(); fields.forEach(field => { document.getElementById(field.id)?.removeAttribute('aria-invalid'); document.getElementById(field.group)?.classList.remove('has-error'); }); feedback.setAttribute('tabindex', '-1'); feedback.focus(); });
 });

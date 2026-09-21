@@ -8,32 +8,53 @@
   <!-- SEO & Browser Meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="js/script.js" defer></script>
+  <meta name="theme-color" content="#0A0A0A">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="js/script.js?v=resume-20260921" defer></script>
   <!-- 
     SEO Decision: Descriptors and keywords targeted for a Computer Science student 
-    profile, highlighting AI Engineering and Python capabilities.
+    profile, highlighting web development, AI, and machine learning skills.
   -->
-  <meta name="description" content="Professional portfolio of Malekar Sai Ganesh, Computer Science and Engineering student at CMR Engineering College. Aspiring AI Engineer and Python Analyst.">
+  <meta name="description" content="Portfolio of Sai Ganesh M, Computer Science and Engineering Student at CMR Engineering College, with experience in web development and projects in AI, machine learning, and application development.">
   <meta name="robots" content="index, follow">
   
-  <!-- SEO Decision: Canonical URL placeholder prevents duplicate index listings on search engines -->
-  <link rel="canonical" href="https://example.com/sai-ganesh-portfolio/">
+  <!-- SEO: Canonical URL identifies the preferred document address. -->
+  <link rel="canonical" href="./">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
   
   <!-- 
     SEO & Accessibility Decision: Open Graph metadata tags define how the website 
     is structured when shared on social channels like LinkedIn, Slack, or Facebook.
   -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://example.com/sai-ganesh-portfolio/">
-  <meta property="og:title" content="Malekar Sai Ganesh | Student Portfolio">
-  <meta property="og:description" content="Explore academic projects, technical skills, and hackathon achievements of Malekar Sai Ganesh, CSE student at CMR Engineering College.">
-  <meta property="og:image" content="https://example.com/sai-ganesh-portfolio/assets/portfolio-preview.jpg">
+  <meta property="og:url" content="./">
+  <meta property="og:title" content="Sai Ganesh M | Computer Science and Engineering Student">
+  <meta property="og:description" content="Computer Science and Engineering portfolio featuring web development experience, AI projects, and ESCI Hackathon recognition.">
+  <meta property="og:image" content="images/social-preview.svg">
+  <meta property="og:image:alt" content="Sai Ganesh M portfolio preview">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sai Ganesh M | Computer Science and Engineering Student">
+  <meta name="twitter:description" content="Computer Science and Engineering portfolio featuring web development, AI, and machine learning projects.">
+  <meta name="twitter:image" content="images/social-preview.svg">
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Sai Ganesh M",
+      "jobTitle": "Computer Science and Engineering Student",
+      "affiliation": { "@type": "CollegeOrUniversity", "name": "CMR Engineering College" },
+      "description": "Computer Science and Engineering Student with web development internship experience and projects in AI, machine learning, and application development."
+    }
+  </script>
 
   <!-- SEO Decision: Unique descriptive title containing core keywords -->
-  <title>Malekar Sai Ganesh | CSE Student & Aspiring AI Engineer Portfolio</title>
+  <title>Sai Ganesh M | Computer Science and Engineering Student</title>
   
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=ui-review-20260921">
 </head>
 <body>
 
@@ -52,7 +73,7 @@
     <div class="container">
       
       <!-- Logo anchor with clear navigation description -->
-      <a href="index.html" class="logo" aria-label="Malekar Sai Ganesh Portfolio Home">
+      <a href="index.html" class="logo" aria-label="Sai Ganesh M Portfolio Home">
         &lt;Sai<span>Ganesh</span>/&gt;
       </a>
 
@@ -78,7 +99,7 @@
           A11y Decision: Interactive button contains a descriptive aria-label and title 
           because the button elements themselves only contain graphic SVG nodes.
         -->
-        <button id="theme-toggle" class="theme-btn" aria-label="Change color theme" aria-pressed="false" title="Change color theme">
+        <button id="theme-toggle" class="theme-btn" hidden aria-label="Change color theme" aria-pressed="false" title="Change color theme">
           <!-- Sun Icon (visible in Dark Theme) -->
           <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
             <circle cx="12" cy="12" r="5"></circle>
@@ -116,6 +137,13 @@
   <!-- Overlay background for mobile drawer (hidden visually and from screen readers by default) -->
   <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
 
+  <nav class="floating-nav" aria-label="Portfolio sections">
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact-cta">Contact</a>
+  </nav>
+
   <!-- 
     Semantic & A11y Decision: The <main> element wraps the primary content of the page,
     with a unique id matching the skip-link destination. tabindex="-1" ensures it is programmatically
@@ -127,19 +155,20 @@
       <!-- Hero Section -->
       <section class="hero" aria-label="Hero Introduction">
         <div class="hero-content">
-          <span class="hero-tag">B.Tech Student &bull; CSE 2nd Year</span>
+          <span class="hero-tag">Computer Science and Engineering Student</span>
           
           <!-- Heading 1: The primary topic identifier of the page (one per page) -->
-          <h1 class="hero-title" style="font-family: initial;">Aspiring <span style="color: var(--primary-color);">AI Engineer</span> & Python Analyst.</h1>
+          <h1 class="hero-title">Computer Science and Engineering Student</h1>
           
           <p class="hero-desc">
-            Hi, I'm <strong>Malekar Sai Ganesh</strong>. I am a Computer Science and Engineering student at CMR Engineering College.I am proficient in C Programming, Data Structures, Web Development (HTML, CSS, Bootstrap, SQL), and AI/ML basics, with a proven track record of building innovative solutions like Hasthvani—an AI-powered sign language recognition platform that won the ESCI Hackathon 2026.
+            <strong>Sai Ganesh M</strong> is a Computer Science and Engineering Student at CMR Engineering College. Experience includes web development at Thiranex, with project work spanning AI-powered sign language recognition, weather detection, and e-commerce web development.
           </p>
           
           <!-- CTAs utilizing clear, descriptive button labels -->
           <div class="hero-cta">
-            <a href="#projects" class="btn btn-primary" aria-label="View Malekar Sai Ganesh's academic projects">View My Projects</a>
-            <a href="contact.html" class="btn btn-secondary" aria-label="Get in touch with Malekar Sai Ganesh">Get In Touch</a>
+            <a href="#projects" class="btn btn-primary" aria-label="View Sai Ganesh M's projects">View Projects</a>
+            <a href="contact.html" class="btn btn-secondary" aria-label="Contact Sai Ganesh M">Contact</a>
+            <a href="resume.html" class="btn btn-secondary" data-resume-download download="Sai-Ganesh-M-Resume.html">Resume</a>
           </div>
         </div>
 
@@ -147,8 +176,17 @@
           A11y Decision: The SVG illustration is decorative background art, so it is hidden 
           from screen readers (aria-hidden="true") to prevent vocalizing noise.
         -->
-        <div class="hero-visual" aria-hidden="true">
-          <svg class="hero-illustration" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="hero-visual">
+          <div class="profile-panel" role="img" aria-label="Profile visual for Sai Ganesh M">
+            <div class="profile-orbit profile-orbit-one" aria-hidden="true"></div>
+            <div class="profile-orbit profile-orbit-two" aria-hidden="true"></div>
+            <div class="profile-initials" aria-hidden="true">SGM</div>
+            <div class="profile-panel-footer">
+              <span>Computer Science &amp; Engineering</span>
+              <strong>CGPA 9.13</strong>
+            </div>
+          </div>
+          <svg class="hero-illustration hero-illustration-support" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <defs>
               <linearGradient id="grid-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="var(--primary-color)" stop-opacity="0.2"/>
@@ -171,7 +209,7 @@
             <!-- CGPA graphic element representation -->
             <rect x="290" y="320" width="130" height="70" rx="10" fill="var(--bg-card)" stroke="var(--border-color)" stroke-width="2" filter="drop-shadow(var(--shadow-md))"/>
             <text x="310" y="348" fill="var(--primary-color)" font-family="var(--font-headings)" font-size="22" font-weight="bold">9.13</text>
-            <text x="310" y="370" fill="var(--text-muted)" font-family="sans-serif" font-size="12">B.Tech CGPA</text>
+            <text x="310" y="370" fill="var(--text-muted)" font-family="sans-serif" font-size="12">CGPA</text>
           </svg>
         </div>
       </section>
@@ -185,11 +223,24 @@
       <!-- Projects Section -->
       <section id="projects" class="section-projects" aria-labelledby="projects-heading">
         <div class="section-title-wrap">
-          <h2 id="projects-heading">Academic Projects</h2>
-          <p>Key models and software applications developed during my CSE coursework.</p>
+          <h2 id="projects-heading">Projects</h2>
+          <p>Projects spanning AI, machine learning, web development, REST APIs, and application development.</p>
         </div>
 
-        <div class="grid-projects">
+        <div class="content-toolbar" aria-label="Project filters">
+          <label class="search-field" for="project-search">
+            <span class="sr-only">Search projects</span>
+            <input id="project-search" type="search" placeholder="Search projects" autocomplete="off">
+          </label>
+          <div class="filter-group" role="group" aria-label="Filter projects by technology">
+            <button class="filter-btn is-active" type="button" data-project-filter="all" aria-pressed="true">All</button>
+            <button class="filter-btn" type="button" data-project-filter="ai">AI / ML</button>
+            <button class="filter-btn" type="button" data-project-filter="web">Web</button>
+            <button class="filter-btn" type="button" data-project-filter="data">Data</button>
+          </div>
+        </div>
+
+        <div class="grid-projects" id="project-grid" aria-live="polite" aria-busy="true">
           
           <!-- 
             Semantic & A11y Decision: Individual projects are structured as <article> tags, 
@@ -236,19 +287,15 @@
             </figure>
             
             <div class="project-body">
-              <ul class="project-tags">
-                <li class="project-tag">Python</li>
-                <li class="project-tag">AI/Machine Learning</li>
-                <li class="project-tag">Image Recognition</li>
-              </ul>
+              <ul class="project-tags"></ul>
               
               <!-- Heading 3: Correct hierarchical nesting under Heading 2 -->
               <h3 class="project-title">
-                <a href="#">AI-based Sign Language Recognition</a>
+                Hasthvani – AI Powered Sign Language Recognition Platform
               </h3>
               
               <p class="project-desc">
-                Developed an AI recognition model designed to process sign language hand shapes and translate physical gestures directly into alphabetical letters and readable textual meaning.
+                  Hasthvani – AI Powered Sign Language Recognition Platform.
               </p>
               
               <!-- 
@@ -256,15 +303,15 @@
                 know exactly which repository is targeted, rather than just hearing "GitHub Project".
               -->
               <div class="project-links">
-                <a href="#" class="project-link-btn" aria-label="View Sign Language Recognition repository on GitHub">
+                <span class="project-link-btn">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                  GitHub Project
-                </a>
+                  Repository link not provided
+                </span>
               </div>
             </div>
           </article>
 
-          <!-- Project 2 (Academic Placeholder) -->
+          <!-- Project 2 -->
           <article class="project-card">
             <figure class="project-figure">
               <svg viewBox="0 0 350 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="100%" height="100%">
@@ -284,24 +331,20 @@
             </figure>
             
             <div class="project-body">
-              <ul class="project-tags">
-                <li class="project-tag">SQL</li>
-                <li class="project-tag">Java</li>
-                <li class="project-tag">Database</li>
-              </ul>
+              <ul class="project-tags"></ul>
               <h3 class="project-title">
-                <a href="#">Academic Database Management System</a>
+                Weather Detector Application
               </h3>
               <p class="project-desc">
-                [Academic Project Placeholder] - A relational schema structure built using SQL querying systems and Java connectivity APIs to manage transaction records and system logs.
+                  Weather Detector Application.
               </p>
               <div class="project-links">
-                <span class="project-link-btn" style="color: var(--text-muted);">Academic Template</span>
+                <span class="project-link-btn" style="color: var(--text-muted);">Project details not provided</span>
               </div>
             </div>
           </article>
 
-          <!-- Project 3 (Academic Placeholder) -->
+          <!-- Project 3 -->
           <article class="project-card">
             <figure class="project-figure">
               <svg viewBox="0 0 350 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="100%" height="100%">
@@ -315,19 +358,15 @@
             </figure>
             
             <div class="project-body">
-              <ul class="project-tags">
-                <li class="project-tag">HTML5</li>
-                <li class="project-tag">CSS3</li>
-                <li class="project-tag">Responsive</li>
-              </ul>
+              <ul class="project-tags"></ul>
               <h3 class="project-title">
-                <a href="#">Responsive Web Development Designs</a>
+                E-Commerce Web Platform
               </h3>
               <p class="project-desc">
-                [Academic Project Placeholder] - Collection of standards-compliant responsive layout blueprints demonstrating clean semantic configurations, flex grids, and mobile-friendly grids.
+                  E-Commerce Web Platform.
               </p>
               <div class="project-links">
-                <span class="project-link-btn" style="color: var(--text-muted);">Academic Template</span>
+                <span class="project-link-btn" style="color: var(--text-muted);">Project details not provided</span>
               </div>
             </div>
           </article>
@@ -338,9 +377,14 @@
       <!-- Technical Skills Section -->
       <section id="skills" class="section-skills" aria-labelledby="skills-heading">
         <div class="section-title-wrap" style="margin-top: var(--space-xl);">
-          <h2 id="skills-heading">Technical Skills</h2>
-          <p>Programming languages and technologies applied throughout my CSE coursework and engineering labs.</p>
+          <h2 id="skills-heading">Skills</h2>
+          <p>Skills listed in the resume.</p>
         </div>
+
+        <label class="search-field skill-search" for="skill-search">
+          <span class="sr-only">Search skills</span>
+          <input id="skill-search" type="search" placeholder="Search skills" autocomplete="off">
+        </label>
 
         <div class="skills-grid">
           <!-- Skills block 1 -->
@@ -351,9 +395,9 @@
             </h3>
             <!-- Semantic unordered list indicating structured skill elements -->
             <ul class="skill-list">
-              <li class="skill-item">C Programming</li>
-              <li class="skill-item">Java Programming</li>
-              <li class="skill-item">Python Programming</li>
+              <li class="skill-item">C</li>
+              <li class="skill-item">Java</li>
+              <li class="skill-item">Python</li>
             </ul>
           </div>
 
@@ -364,9 +408,11 @@
               Data & Web Core
             </h3>
             <ul class="skill-list">
-              <li class="skill-item">SQL Databases</li>
-              <li class="skill-item">HTML5 Semantic Structure</li>
-              <li class="skill-item">CSS3 Styling & Layouts</li>
+              <li class="skill-item">HTML</li>
+              <li class="skill-item">CSS</li>
+              <li class="skill-item">JavaScript</li>
+              <li class="skill-item">Bootstrap</li>
+              <li class="skill-item">SQL</li>
             </ul>
           </div>
 
@@ -374,12 +420,12 @@
           <div class="skill-category">
             <h3 class="skill-category-title">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>
-              Development Target
+              AI Skills
             </h3>
             <ul class="skill-list">
-              <li class="skill-item">AI Engineering & Models</li>
-              <li class="skill-item">Python Analysis Automation</li>
-              <li class="skill-item">Accessible Web Standards</li>
+              <li class="skill-item">Generative AI</li>
+              <li class="skill-item">Machine Learning</li>
+              <li class="skill-item">REST APIs</li>
             </ul>
           </div>
         </div>
@@ -391,8 +437,8 @@
       -->
       <section id="achievements" class="section-achievements" aria-labelledby="achievements-heading">
         <div class="section-title-wrap" style="margin-top: var(--space-xl);">
-          <h2 id="achievements-heading">Achievements & Hackathons</h2>
-          <p>Recognitions and competition milestones secured during my academic journey.</p>
+          <h2 id="achievements-heading">Achievements</h2>
+          <p>Winner of ESCI Hackathon 2026.</p>
         </div>
 
         <div style="margin-top: var(--space-md);">
@@ -400,22 +446,77 @@
             Semantic & A11y Decision: Individual achievements are formatted as <article> tags 
             to stand alone as independent announcements.
           -->
-          <article class="skill-category" style="max-width: 800px; padding: var(--space-md); border-left: 5px solid var(--accent-color);">
+          <article class="skill-category hackathon-card" style="max-width: 800px; padding: var(--space-md); border-left: 5px solid var(--accent-color);">
             <div style="display: flex; gap: 1rem; align-items: flex-start; flex-wrap: wrap;">
               <!-- Trophy Icon visual -->
               <div class="contact-icon-wrapper" style="background-color: rgba(13, 148, 136, 0.08); color: var(--accent-color);" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"></path><path d="M12 2a6 6 0 0 1 6 6v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V8a6 6 0 0 1 6-6z"></path></svg>
               </div>
               <div style="flex: 1; min-width: 250px;">
-                <span class="hero-tag" style="color: var(--accent-color);">State-Level Hackathon</span>
-                <h3 style="font-size: 1.25rem; margin-top: 0.2rem; margin-bottom: 0.4rem;">3rd Prize - ESCI Hackathon</h3>
+                <span class="hero-tag" style="color: var(--accent-color);">Hackathon</span>
+                <h3 style="font-size: 1.25rem; margin-top: 0.2rem; margin-bottom: 0.4rem;">Winner - ESCI Hackathon 2026</h3>
                 <p style="font-size: 0.95rem; line-height: 1.5; margin-bottom: 0;">
-                  Participated as part of a collaborative student engineering team in Hyderabad and secured the 3rd prize in a state-level hackathon organized by the Engineering Staff College of India (ESCI).
+                  Winner of ESCI Hackathon 2026.
                 </p>
+                <button class="achievement-toggle" type="button" aria-expanded="false">View achievement details</button>
+                <div class="achievement-details">ESCI Hackathon 2026 recognition.</div>
               </div>
             </div>
           </article>
         </div>
+      </section>
+
+      <section id="experience" class="dynamic-section experience-section" aria-labelledby="experience-heading">
+        <div class="section-title-wrap">
+          <h2 id="experience-heading">Experience</h2>
+          <p>Web Development Intern at Thiranex.</p>
+        </div>
+        <div class="experience-timeline">
+          <article class="experience-item">
+            <span class="timeline-meta">Internship Experience</span>
+            <div class="experience-item-content">
+              <span class="experience-marker" aria-hidden="true"></span>
+              <div>
+                <h3>Web Development Intern</h3>
+                <p>Thiranex</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="statistics" class="dynamic-section" aria-labelledby="statistics-heading">
+        <div class="section-title-wrap">
+          <h2 id="statistics-heading">Profile Summary</h2>
+          <p>Selected academic, project, and competition indicators.</p>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><strong class="stat-value" data-counter="9.13" data-decimals="2">0</strong><span>CGPA</span></article>
+          <article class="stat-card"><strong class="stat-value" data-counter="3">0</strong><span>Projects</span></article>
+          <article class="stat-card"><strong class="stat-value" data-counter="1">0</strong><span>Hackathon Recognition</span></article>
+          <article class="stat-card"><strong class="stat-value" data-counter="11">0</strong><span>Skills Listed</span></article>
+        </div>
+      </section>
+
+      <section id="certifications" class="dynamic-section" aria-labelledby="certifications-heading">
+        <div class="section-title-wrap">
+          <h2 id="certifications-heading">Education & Milestones</h2>
+          <p>Verified academic and competition details available in the current portfolio record.</p>
+        </div>
+        <div class="credential-grid">
+          <article class="credential-card is-featured" tabindex="0"><span class="credential-index">01</span><h3>ESCI Hackathon 2026</h3><p>Winner of ESCI Hackathon 2026.</p><button class="credential-toggle" type="button" aria-expanded="false">View details</button><div class="credential-details">Hackathon achievement.</div></article>
+          <article class="credential-card" tabindex="0"><span class="credential-index">02</span><h3>Web Development Intern</h3><p>Web Development Intern at Thiranex.</p><button class="credential-toggle" type="button" aria-expanded="false">View details</button><div class="credential-details">Internship experience at Thiranex.</div></article>
+          <article class="credential-card" tabindex="0"><span class="credential-index">03</span><h3>Education</h3><p>Computer Science and Engineering Student at CMR Engineering College.</p><button class="credential-toggle" type="button" aria-expanded="false">View details</button><div class="credential-details">CGPA: 9.13.</div></article>
+        </div>
+      </section>
+
+      <section id="contact-cta" class="contact-cta-band" aria-labelledby="contact-cta-heading">
+        <div>
+          <span class="hero-tag">Contact</span>
+          <h2 id="contact-cta-heading">Contact Sai Ganesh M.</h2>
+          <p></p>
+        </div>
+        <a href="contact.html" class="btn btn-primary">Contact Sai Ganesh M</a>
       </section>
 
     </div>
@@ -426,30 +527,32 @@
   -->
   <footer class="footer">
     <div class="container">
-      <p class="footer-copy">&copy; 2026 Malekar Sai Ganesh. Built with semantic HTML5 and WCAG compliance guidelines.</p>
+      <p class="footer-copy">&copy; 2026 Sai Ganesh M. Built with semantic HTML5 and WCAG compliance guidelines.</p>
       
       <!-- 
         A11y Decision: Unordered lists preserve structures for screen reader link parsing.
         aria-label="Social Media Connections" describes the list purpose.
       -->
-      <ul class="footer-socials" aria-label="Social Media Connections">
+      <ul class="footer-socials" hidden aria-label="Social Media Connections">
         <li>
-          <a href="#" class="social-link" title="LinkedIn Profile (Placeholder)">
+          <span class="social-link" title="LinkedIn profile not provided">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
             <span class="sr-only">LinkedIn (Placeholder)</span>
-          </a>
+          </span>
         </li>
         <li>
-          <a href="#" class="social-link" title="GitHub Repositories (Placeholder)">
+          <span class="social-link" title="GitHub profile not provided">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
             <span class="sr-only">GitHub (Placeholder)</span>
-          </a>
+          </span>
         </li>
       </ul>
     </div>
   </footer>
 
-  <!-- Script tags -->
-  <script src="js/script.js"></script>
+  <button class="scroll-top" id="scroll-top" type="button" aria-label="Scroll to top" title="Scroll to top">
+    <span aria-hidden="true">↑</span>
+  </button>
+
 </body>
 </html>

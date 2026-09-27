@@ -14,6 +14,139 @@ document.addEventListener('DOMContentLoaded', () => {
     body.classList.remove('is-loading');
   }, reducedMotion ? 0 : 260), { once: true });
 
+  if (!reducedMotion && window.THREE) {
+    try {
+      const particleCanvas = document.createElement('canvas');
+      particleCanvas.className = 'ambient-particles';
+      particleCanvas.setAttribute('aria-hidden', 'true');
+      body.append(particleCanvas);
+      const renderer = new THREE.WebGLRenderer({ canvas: particleCanvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
+      camera.position.z = 18;
+      const particleCount = window.innerWidth < 680 ? 48 : 100;
+      const positions = new Float32Array(particleCount * 3);
+      const drift = Array.from({ length: particleCount }, () => ({ x: (Math.random() - .5) * .002, y: (Math.random() - .5) * .002 }));
+      const geometry = new THREE.BufferGeometry();
+      const bounds = { x: 0, y: 0 };
+      const resizeParticles = () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        camera.position.z = Math.max(14, width / 90);
+        camera.updateProjectionMatrix();
+        bounds.y = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+        bounds.x = bounds.y * camera.aspect;
+        for (let index = 0; index < particleCount; index += 1) {
+          positions[index * 3] = (Math.random() * 2 - 1) * bounds.x;
+          positions[index * 3 + 1] = (Math.random() * 2 - 1) * bounds.y;
+          positions[index * 3 + 2] = (Math.random() - .5) * 5;
+        }
+        geometry.attributes.position.needsUpdate = true;
+      };
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const material = new THREE.PointsMaterial({ color: 0xe4e4e4, size: .035, transparent: true, opacity: .62, sizeAttenuation: true });
+      scene.add(new THREE.Points(geometry, material));
+      resizeParticles();
+      let particleFrame;
+      const renderParticles = () => {
+        for (let index = 0; index < particleCount; index += 1) {
+          const offset = index * 3;
+          positions[offset] += drift[index].x;
+          positions[offset + 1] += drift[index].y;
+          if (positions[offset] > bounds.x) positions[offset] = -bounds.x;
+          if (positions[offset] < -bounds.x) positions[offset] = bounds.x;
+          if (positions[offset + 1] > bounds.y) positions[offset + 1] = -bounds.y;
+          if (positions[offset + 1] < -bounds.y) positions[offset + 1] = bounds.y;
+        }
+        geometry.attributes.position.needsUpdate = true;
+        renderer.render(scene, camera);
+        particleFrame = window.requestAnimationFrame(renderParticles);
+      };
+      const setParticleVisibility = () => {
+        if (document.hidden) window.cancelAnimationFrame(particleFrame);
+        else if (!particleFrame || document.hidden === false) renderParticles();
+      };
+      window.addEventListener('resize', resizeParticles, { passive: true });
+      document.addEventListener('visibilitychange', setParticleVisibility);
+      renderParticles();
+    } catch (error) {
+      document.querySelector('.ambient-particles')?.remove();
+    }
+  }
+
+  const hasGsap = window.gsap && window.ScrollTrigger;
+  if (hasGsap) {
+    gsap.registerPlugin(ScrollTrigger);
+    if (!reducedMotion) {
+      const heroContent = gsap.utils.toArray('.hero-content > *');
+      if (heroContent.length) gsap.from(heroContent, { y: 16, opacity: 0, duration: .75, stagger: .08, ease: 'power2.out', clearProps: 'opacity,transform' });
+      gsap.utils.toArray('.hero-visual').forEach(visual => gsap.to(visual, {
+        yPercent: 5,
+        ease: 'none',
+        scrollTrigger: { trigger: visual, start: 'top bottom', end: 'bottom top', scrub: .8 }
+      }));
+      [
+        ['.grid-projects', '.project-card'],
+        ['.skill-grid', '.skill-card'],
+        ['.achievement-grid', '.achievement-card'],
+        ['.education-grid', '.education-card']
+      ].forEach(([gridSelector, cardSelector]) => {
+        gsap.utils.toArray(gridSelector).forEach(grid => {
+          const cards = grid.querySelectorAll(cardSelector);
+          if (!cards.length) return;
+          gsap.fromTo(cards, { autoAlpha: 0, y: 16 }, {
+            autoAlpha: 1,
+            y: 0,
+            duration: .55,
+            stagger: .08,
+            ease: 'power2.out',
+            overwrite: 'auto',
+            clearProps: 'opacity,visibility,transform',
+            scrollTrigger: { trigger: grid, start: 'top 88%', once: true }
+          });
+        });
+      });
+      const techFloaters = gsap.utils.toArray('.tech-floaters span');
+      if (techFloaters.length) gsap.from(techFloaters, {
+        y: 8,
+        autoAlpha: 0,
+        duration: .5,
+        stagger: .08,
+        delay: .2,
+        ease: 'power2.out',
+        clearProps: 'opacity,visibility,transform'
+      });
+    }
+  }
+
+  if (window.matchMedia('(pointer: fine)').matches && !reducedMotion) {
+    window.addEventListener('pointermove', event => {
+      root.style.setProperty('--pointer-x', `${event.clientX}px`);
+      root.style.setProperty('--pointer-y', `${event.clientY}px`);
+    }, { passive: true });
+    const setCardTilt = (card, event) => {
+      const bounds = card.getBoundingClientRect();
+      const x = (event.clientX - bounds.left) / bounds.width - .5;
+      const y = (event.clientY - bounds.top) / bounds.height - .5;
+      card.style.setProperty('--tilt-x', `${-y * 4}deg`);
+      card.style.setProperty('--tilt-y', `${x * 4}deg`);
+    };
+    document.addEventListener('pointermove', event => {
+      const card = event.target.closest('.project-card, .skill-category, .skill-card-item');
+      if (card) setCardTilt(card, event);
+    }, { passive: true });
+    document.addEventListener('pointerout', event => {
+      const card = event.target.closest('.project-card, .skill-category, .skill-card-item');
+      if (card && !card.contains(event.relatedTarget)) {
+        card.style.setProperty('--tilt-x', '0deg');
+        card.style.setProperty('--tilt-y', '0deg');
+      }
+    }, { passive: true });
+  }
+
   const menuToggle = document.getElementById('menu-toggle');
   const navMenu = document.getElementById('nav-menu');
   const navOverlay = document.getElementById('nav-overlay');
@@ -56,16 +189,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const target = new URL(link.href, window.location.href);
     if (target.origin !== window.location.origin || target.pathname === window.location.pathname || reducedMotion) return;
     event.preventDefault();
-    transition.classList.add('is-leaving');
-    window.setTimeout(() => { window.location.href = target.href; }, 260);
+    if (hasGsap) {
+      gsap.to(transition, { scaleY: 1, transformOrigin: 'bottom', duration: .42, ease: 'power2.inOut', onComplete: () => { window.location.href = target.href; } });
+    } else {
+      transition.classList.add('is-leaving');
+      window.setTimeout(() => { window.location.href = target.href; }, 260);
+    }
   }));
 
-  const revealItems = document.querySelectorAll('main section, .project-card, .skill-category, .timeline-item, .experience-item, .contact-info-item, .contact-form-container, .credential-card');
+  const revealItems = document.querySelectorAll('main section:not(#skills):not(#achievements):not(#education), main section .section-title-wrap > h2, main section .section-title-wrap > p, .timeline-item, .experience-item, .contact-info-item, .contact-form-container');
   revealItems.forEach((item, index) => { item.classList.add('reveal'); item.style.transitionDelay = `${Math.min(index * 35, 240)}ms`; });
   const revealObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => entries.forEach(entry => {
     if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); }
   }), { threshold: .12 }) : null;
   revealItems.forEach(item => revealObserver ? revealObserver.observe(item) : item.classList.add('is-visible'));
+
+  if (!hasGsap || reducedMotion) {
+    document.querySelectorAll('.grid-projects .project-card, .skill-grid .skill-card, .achievement-grid .achievement-card, .education-grid .education-card').forEach(card => {
+      if (reducedMotion || !revealObserver) card.classList.add('is-visible');
+      else {
+        card.classList.add('reveal');
+        revealObserver.observe(card);
+      }
+    });
+  }
 
   const progress = document.createElement('div');
   progress.className = 'scroll-progress';
@@ -138,11 +285,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const skillSearch = document.getElementById('skill-search');
   skillSearch?.addEventListener('input', () => {
     const query = skillSearch.value.trim().toLowerCase();
-    document.querySelectorAll('.skill-category').forEach(category => category.classList.toggle('is-filtered', query && !category.textContent.toLowerCase().includes(query)));
+    document.querySelectorAll('.skill-category').forEach(category => {
+      const matches = !query || category.textContent.toLowerCase().includes(query);
+      category.classList.toggle('is-filtered', !matches);
+    });
   });
-  document.querySelectorAll('.skill-item').forEach(item => {
-    const level = item.dataset.level || (65 + (item.textContent.length % 30));
-    item.insertAdjacentHTML('beforeend', `<span class="skill-meter" aria-hidden="true"><span style="--skill-level:${level}%"></span></span>`);
+
+  document.querySelectorAll('.skill-card-item').forEach(item => {
+    const level = Number(item.dataset.skillLevel || 85);
+    item.style.setProperty('--skill-level', `${level}%`);
+    item.classList.add('is-visible');
   });
 
   document.querySelectorAll('.stat-value').forEach(counter => {
@@ -182,16 +334,119 @@ document.addEventListener('DOMContentLoaded', () => {
     window.dispatchEvent(new CustomEvent(eventName, { detail: { href: link.href } }));
   }));
 
-  if (window.matchMedia('(pointer: fine)').matches && !reducedMotion) {
-    const cursor = document.createElement('span');
-    cursor.className = 'cursor-dot';
-    cursor.setAttribute('aria-hidden', 'true');
-    body.append(cursor);
-    window.addEventListener('pointermove', event => { cursor.style.left = `${event.clientX}px`; cursor.style.top = `${event.clientY}px`; });
-    document.querySelectorAll('a, button, input, textarea, select, .credential-card').forEach(element => {
-      element.addEventListener('pointerenter', () => cursor.classList.add('is-hovering'));
-      element.addEventListener('pointerleave', () => cursor.classList.remove('is-hovering'));
+  const isMobileCursor = window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(max-width: 767px)').matches;
+  const useCustomCursor = window.matchMedia('(pointer: fine)').matches && !reducedMotion && !isMobileCursor;
+
+  if (useCustomCursor) {
+    const cursorShell = document.createElement('div');
+    cursorShell.className = 'cursor-shell';
+    cursorShell.setAttribute('aria-hidden', 'true');
+
+    const cursorDot = document.createElement('div');
+    cursorDot.className = 'cursor-dot';
+    cursorDot.setAttribute('aria-hidden', 'true');
+
+    const cursorLabel = document.createElement('div');
+    cursorLabel.className = 'cursor-label';
+    cursorLabel.setAttribute('aria-hidden', 'true');
+    cursorLabel.textContent = 'Open';
+
+    body.append(cursorShell, cursorDot, cursorLabel);
+    body.classList.add('cursor-enabled');
+
+    const cursorState = {
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+      targetX: window.innerWidth / 2,
+      targetY: window.innerHeight / 2,
+      ringScale: 1,
+      dotScale: 1,
+      targetRingScale: 1,
+      targetDotScale: 1,
+      labelScale: 0.8,
+      targetLabelScale: 0.8,
+      labelOpacity: 0,
+      targetLabelOpacity: 0
+    };
+
+    const setPointerPosition = event => {
+      cursorState.targetX = event.clientX;
+      cursorState.targetY = event.clientY;
+    };
+
+    const updateCursor = () => {
+      cursorState.x += (cursorState.targetX - cursorState.x) * 0.14;
+      cursorState.y += (cursorState.targetY - cursorState.y) * 0.14;
+      cursorState.ringScale += (cursorState.targetRingScale - cursorState.ringScale) * 0.18;
+      cursorState.dotScale += (cursorState.targetDotScale - cursorState.dotScale) * 0.18;
+      cursorState.labelScale += (cursorState.targetLabelScale - cursorState.labelScale) * 0.18;
+      cursorState.labelOpacity += (cursorState.targetLabelOpacity - cursorState.labelOpacity) * 0.18;
+
+      cursorShell.style.left = `${cursorState.x}px`;
+      cursorShell.style.top = `${cursorState.y}px`;
+      cursorDot.style.left = `${cursorState.x}px`;
+      cursorDot.style.top = `${cursorState.y}px`;
+      cursorLabel.style.left = `${cursorState.x}px`;
+      cursorLabel.style.top = `${cursorState.y}px`;
+      cursorShell.style.transform = `translate(-50%, -50%) scale(${cursorState.ringScale})`;
+      cursorDot.style.transform = `translate(-50%, -50%) scale(${cursorState.dotScale})`;
+      cursorLabel.style.transform = `translate(-50%, -50%) scale(${cursorState.labelScale})`;
+      cursorLabel.style.opacity = String(cursorState.labelOpacity);
+
+      requestAnimationFrame(updateCursor);
+    };
+
+    const interactiveTargets = '.btn, .nav-link, .floating-nav a, .project-card, .project-link-btn, .social-link, .credential-card, .filter-btn';
+
+    document.addEventListener('pointermove', setPointerPosition, { passive: true });
+
+    document.querySelectorAll(interactiveTargets).forEach(element => {
+      const setLabel = (labelText, active) => {
+        cursorLabel.textContent = labelText;
+        cursorState.targetLabelOpacity = active ? 1 : 0;
+        cursorState.targetLabelScale = active ? 1 : 0.8;
+      };
+
+      element.addEventListener('pointerenter', event => {
+        cursorShell.classList.add('cursor--active');
+        cursorDot.classList.add('cursor--active');
+        cursorState.targetRingScale = 1.38;
+        cursorState.targetDotScale = 1.45;
+
+        const isProjectCard = element.classList.contains('project-card') || element.classList.contains('project-link-btn');
+        const isLinkLike = element.closest('a, .nav-link, .floating-nav a, .btn, .social-link, .project-link-btn') || element.matches('a, .nav-link, .floating-nav a, .btn, .social-link, .project-link-btn');
+        const labelText = isProjectCard ? 'View' : isLinkLike ? 'Open' : 'Open';
+
+        setLabel(labelText, true);
+
+        const rect = element.getBoundingClientRect();
+        const offsetX = (event.clientX - (rect.left + rect.width / 2)) * 0.18;
+        const offsetY = (event.clientY - (rect.top + rect.height / 2)) * 0.18;
+        element.style.setProperty('--cursor-magnetic-x', `${offsetX}px`);
+        element.style.setProperty('--cursor-magnetic-y', `${offsetY}px`);
+      });
+
+      element.addEventListener('pointerleave', () => {
+        cursorShell.classList.remove('cursor--active');
+        cursorDot.classList.remove('cursor--active');
+        cursorState.targetRingScale = 1;
+        cursorState.targetDotScale = 1;
+        cursorState.targetLabelOpacity = 0;
+        cursorState.targetLabelScale = 0.8;
+        element.style.setProperty('--cursor-magnetic-x', '0px');
+        element.style.setProperty('--cursor-magnetic-y', '0px');
+      });
+
+      element.addEventListener('pointermove', event => {
+        const rect = element.getBoundingClientRect();
+        const offsetX = (event.clientX - (rect.left + rect.width / 2)) * 0.18;
+        const offsetY = (event.clientY - (rect.top + rect.height / 2)) * 0.18;
+        element.style.setProperty('--cursor-magnetic-x', `${offsetX}px`);
+        element.style.setProperty('--cursor-magnetic-y', `${offsetY}px`);
+      });
     });
+
+    requestAnimationFrame(updateCursor);
   }
 
   // Theme-ready architecture: a future theme can set data-theme without changing components.

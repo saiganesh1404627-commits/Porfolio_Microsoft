@@ -12,7 +12,10 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <script src="js/script.js?v=resume-20260921" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/script.js?v=animations-20260927" defer></script>
   <!-- 
     SEO Decision: Descriptors and keywords targeted for a Computer Science student 
     profile, highlighting web development, AI, and machine learning skills.
@@ -155,13 +158,13 @@
       <!-- Hero Section -->
       <section class="hero" aria-label="Hero Introduction">
         <div class="hero-content">
-          <span class="hero-tag">Computer Science and Engineering Student</span>
+          <span class="hero-tag">ASPIRING AI &amp; SOFTWARE ENGINEER</span>
           
           <!-- Heading 1: The primary topic identifier of the page (one per page) -->
-          <h1 class="hero-title">Computer Science and Engineering Student</h1>
+          <h1 class="hero-title">Future AI &amp; Software Engineer</h1>
           
           <p class="hero-desc">
-            <strong>Sai Ganesh M</strong> is a Computer Science and Engineering Student at CMR Engineering College. Experience includes web development at Thiranex, with project work spanning AI-powered sign language recognition, weather detection, and e-commerce web development.
+            <strong>Sai Ganesh M</strong> is a Computer Science and Engineering student at CMR Engineering College with a CGPA of 9.13. His experience includes web development, Generative AI, automation, and software engineering projects including AI-powered sign language recognition, weather applications, and e-commerce platforms. He is currently expanding his knowledge in Artificial Intelligence and Machine Learning while building real-world applications. He has completed a Web Development Internship at Thiranex and has been selected for a 6-month internship at Future Makers Hub as a Content Generation Team Intern.
           </p>
           
           <!-- CTAs utilizing clear, descriptive button labels -->
@@ -180,6 +183,9 @@
           <div class="profile-panel" role="img" aria-label="Profile visual for Sai Ganesh M">
             <div class="profile-orbit profile-orbit-one" aria-hidden="true"></div>
             <div class="profile-orbit profile-orbit-two" aria-hidden="true"></div>
+            <div class="tech-floaters" aria-hidden="true">
+              <span>JS</span><span>AI</span><span>PY</span><span>SQL</span>
+            </div>
             <div class="profile-initials" aria-hidden="true">SGM</div>
             <div class="profile-panel-footer">
               <span>Computer Science &amp; Engineering</span>
@@ -376,58 +382,20 @@
 
       <!-- Technical Skills Section -->
       <section id="skills" class="section-skills" aria-labelledby="skills-heading">
-        <div class="section-title-wrap" style="margin-top: var(--space-xl);">
+        <div class="section-title-wrap">
           <h2 id="skills-heading">Skills</h2>
-          <p>Skills listed in the resume.</p>
+          <p>Software engineering capabilities across front-end implementation, core programming, and AI-driven automation.</p>
         </div>
 
-        <label class="search-field skill-search" for="skill-search">
-          <span class="sr-only">Search skills</span>
-          <input id="skill-search" type="search" placeholder="Search skills" autocomplete="off">
-        </label>
-
-        <div class="skills-grid">
-          <!-- Skills block 1 -->
-          <div class="skill-category">
-            <h3 class="skill-category-title">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-              Languages
-            </h3>
-            <!-- Semantic unordered list indicating structured skill elements -->
-            <ul class="skill-list">
-              <li class="skill-item">C</li>
-              <li class="skill-item">Java</li>
-              <li class="skill-item">Python</li>
-            </ul>
-          </div>
-
-          <!-- Skills block 2 -->
-          <div class="skill-category">
-            <h3 class="skill-category-title">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-              Data & Web Core
-            </h3>
-            <ul class="skill-list">
-              <li class="skill-item">HTML</li>
-              <li class="skill-item">CSS</li>
-              <li class="skill-item">JavaScript</li>
-              <li class="skill-item">Bootstrap</li>
-              <li class="skill-item">SQL</li>
-            </ul>
-          </div>
-
-          <!-- Skills block 3 -->
-          <div class="skill-category">
-            <h3 class="skill-category-title">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>
-              AI Skills
-            </h3>
-            <ul class="skill-list">
-              <li class="skill-item">Generative AI</li>
-              <li class="skill-item">Machine Learning</li>
-              <li class="skill-item">REST APIs</li>
-            </ul>
-          </div>
+        <div class="skill-grid" aria-label="Technical skills">
+          <article class="skill-card"><h3>HTML</h3><p>Learned through NxtWave web development training and project building.</p></article>
+          <article class="skill-card"><h3>CSS</h3><p>Learned responsive styling and UI design through NxtWave.</p></article>
+          <article class="skill-card"><h3>JavaScript</h3><p>Used for interactive web applications and frontend development.</p></article>
+          <article class="skill-card"><h3>Python</h3><p>Learned programming fundamentals and problem solving.</p></article>
+          <article class="skill-card"><h3>Java</h3><p>Learned object-oriented programming concepts through NxtWave and internship training.</p></article>
+          <article class="skill-card"><h3>SQL</h3><p>Learned database design, queries and data management.</p></article>
+          <article class="skill-card"><h3>Generative AI</h3><p>Explored AI applications and LLM-based solutions through internship learning and projects.</p></article>
+          <article class="skill-card"><h3>Automation</h3><p>Interested in workflow automation and AI-assisted productivity tools.</p></article>
         </div>
       </section>
 
@@ -436,32 +404,65 @@
         Semantic Decision: Added achievements container using Heading level 2.
       -->
       <section id="achievements" class="section-achievements" aria-labelledby="achievements-heading">
-        <div class="section-title-wrap" style="margin-top: var(--space-xl);">
+        <div class="section-title-wrap">
           <h2 id="achievements-heading">Achievements</h2>
-          <p>Winner of ESCI Hackathon 2026.</p>
+          <p>Academic excellence, internship experience, and recognition for innovation and teamwork.</p>
         </div>
 
-        <div style="margin-top: var(--space-md);">
-          <!-- 
-            Semantic & A11y Decision: Individual achievements are formatted as <article> tags 
-            to stand alone as independent announcements.
-          -->
-          <article class="skill-category hackathon-card" style="max-width: 800px; padding: var(--space-md); border-left: 5px solid var(--accent-color);">
-            <div style="display: flex; gap: 1rem; align-items: flex-start; flex-wrap: wrap;">
-              <!-- Trophy Icon visual -->
-              <div class="contact-icon-wrapper" style="background-color: rgba(13, 148, 136, 0.08); color: var(--accent-color);" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"></path><path d="M12 2a6 6 0 0 1 6 6v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V8a6 6 0 0 1 6-6z"></path></svg>
-              </div>
-              <div style="flex: 1; min-width: 250px;">
-                <span class="hero-tag" style="color: var(--accent-color);">Hackathon</span>
-                <h3 style="font-size: 1.25rem; margin-top: 0.2rem; margin-bottom: 0.4rem;">Winner - ESCI Hackathon 2026</h3>
-                <p style="font-size: 0.95rem; line-height: 1.5; margin-bottom: 0;">
-                  Winner of ESCI Hackathon 2026.
-                </p>
-                <button class="achievement-toggle" type="button" aria-expanded="false">View achievement details</button>
-                <div class="achievement-details">ESCI Hackathon 2026 recognition.</div>
-              </div>
+        <div class="achievement-grid" aria-label="Professional achievements">
+          <article class="achievement-card">
+            <div class="achievement-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3.5 15.2 7.1 20 8.1 16.8 11.8 17.4 16.6 12 14.2 6.6 16.6 7.2 11.8 4 8.1l4.8-1z"></path>
+              </svg>
             </div>
+            <span class="achievement-tag">Academic Excellence</span>
+            <h3>CGPA 9.13 / 10.00</h3>
+            <p>First Year B.Tech Academic Performance</p>
+          </article>
+
+          <article class="achievement-card">
+            <div class="achievement-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 21h8"></path>
+                <path d="M10 17V8l-2 2"></path>
+                <path d="M14 17V8l2 2"></path>
+                <path d="M6 9V5.5A1.5 1.5 0 0 1 7.5 4h9A1.5 1.5 0 0 1 18 5.5V9"></path>
+                <path d="M12 2v5"></path>
+                <path d="M7 21V11h10v10"></path>
+              </svg>
+            </div>
+            <span class="achievement-tag">Internship</span>
+            <h3>Thiranex Internship</h3>
+            <p>Completed 1 Month Web Development Internship</p>
+          </article>
+
+          <article class="achievement-card">
+            <div class="achievement-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v9A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9Z"></path>
+                <path d="M8 9h8"></path>
+                <path d="M8 12h8"></path>
+                <path d="M8 15h5"></path>
+              </svg>
+            </div>
+            <span class="achievement-tag">Content Generation Team</span>
+            <h3>Future Makers Hub</h3>
+            <p>Selected for 6 Month Content Generation Internship</p>
+          </article>
+
+          <article class="achievement-card">
+            <div class="achievement-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 18V8.5A2.5 2.5 0 0 1 8.5 6H18"></path>
+                <path d="M6 18h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H6v11Z"></path>
+                <path d="M9 12h6"></path>
+                <path d="M9 15h6"></path>
+              </svg>
+            </div>
+            <span class="achievement-tag">State-Level Recognition</span>
+            <h3>ESCI State Level Hackathon</h3>
+            <p>3rd Prize Winner</p>
           </article>
         </div>
       </section>
@@ -498,15 +499,15 @@
         </div>
       </section>
 
-      <section id="certifications" class="dynamic-section" aria-labelledby="certifications-heading">
+      <section id="education" class="dynamic-section education-section" aria-labelledby="education-heading">
         <div class="section-title-wrap">
-          <h2 id="certifications-heading">Education & Milestones</h2>
-          <p>Verified academic and competition details available in the current portfolio record.</p>
+          <h2 id="education-heading">Education</h2>
+          <p>Academic milestones across secondary, intermediate, and undergraduate study.</p>
         </div>
-        <div class="credential-grid">
-          <article class="credential-card is-featured" tabindex="0"><span class="credential-index">01</span><h3>ESCI Hackathon 2026</h3><p>Winner of ESCI Hackathon 2026.</p><button class="credential-toggle" type="button" aria-expanded="false">View details</button><div class="credential-details">Hackathon achievement.</div></article>
-          <article class="credential-card" tabindex="0"><span class="credential-index">02</span><h3>Web Development Intern</h3><p>Web Development Intern at Thiranex.</p><button class="credential-toggle" type="button" aria-expanded="false">View details</button><div class="credential-details">Internship experience at Thiranex.</div></article>
-          <article class="credential-card" tabindex="0"><span class="credential-index">03</span><h3>Education</h3><p>Computer Science and Engineering Student at CMR Engineering College.</p><button class="credential-toggle" type="button" aria-expanded="false">View details</button><div class="credential-details">CGPA: 9.13.</div></article>
+        <div class="education-grid" aria-label="Education qualifications">
+          <article class="education-card"><span class="education-index">01</span><h3>10th Class</h3><p><strong>92.33%</strong></p></article>
+          <article class="education-card"><span class="education-index">02</span><h3>Intermediate</h3><p><strong>95.4%</strong></p></article>
+          <article class="education-card"><span class="education-index">03</span><h3>B.Tech First Year</h3><p>CGPA <strong>9.13</strong></p></article>
         </div>
       </section>
 
